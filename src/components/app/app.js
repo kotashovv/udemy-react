@@ -5,30 +5,25 @@ import AppFilter from "../app-filter/app-filter";
 import EmployersList from "../employers-list/employers-list";
 import EmployersAddForm from "../employers-add-form/employers-add-form";
 
-const RenderElement = ()=> {
-    return (
-        <div className='container'>
-            {Object.values(json).map(item => (
-                <div
-                    key={item.key}
-                    style={{
-                        width: `${item.width}px`,
-                        height: `${item.height}px`,
-                        left: `${item.x}px`,
-                        top: `${item.y}px`,
-                        visibility: item.visible ? 'visible' : 'hidden',
-                    }}
-                >
-                    /* Сюда пишем другие свойства */
-                </div>
-            ))}
-        </div>
-    );
-}
-
-ReactDOM.render(<RenderElements />, document.getElementById('root'));
-
 function App() {
+    const data = [
+        {
+          name: 'John',
+          salary: '500',
+            increase: false,
+        },
+        {
+          name: 'Ivan',
+          salary: '1300',
+            increase: true,
+        },
+        {
+          name: 'Hanna',
+          salary: '800',
+            increase: false,
+        },
+    ]
+
     return(
         <div className='app'>
             <AppInfo/>
@@ -36,7 +31,7 @@ function App() {
                 <SearchPanel/>
                 <AppFilter/>
             </div>
-            <EmployersList/>
+            <EmployersList data={data}/>
             <EmployersAddForm/>
         </div>
     );
