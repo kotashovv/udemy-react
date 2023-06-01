@@ -1,30 +1,62 @@
+import {Component} from "react";
+
 import './employers-list-item.css';
 
-const EmployersListItem = ({name, salary, increase})=>{
+class EmployersListItem extends Component {
 
-    let classNames = 'list-group-item d-flex justify-content-between'
-    if (increase){
-        classNames += ' increase';
+    constructor(props) {
+        super(props);
+        this.state = {
+            increase: false,
+            favorite: false,
+        }
     }
 
+    onFavorite = ()=>{
+        this.setState(({favorite})=>({
+            favorite: !favorite,
+        }))
+    }
 
-    return(
-        <li className={classNames}>
-            <span className="list-group-item-label">{name}</span>
-            <input type="text" className="list-group-item-input" defaultValue={salary + '$'}/>
-            <div className='d-flex justify-content-center align-items-center'>
-                <button type="button"
-                        className="btn-cookie btn-sm ">
-                    <i className="fas fa-cookie"></i>
-                </button>
-                <button type="button"
-                        className="btn-trash btn-sm ">
-                    <i className="fas fa-trash"></i>
-                </button>
-                <i className="fas fa-star"></i>
-            </div>
-        </li>
-    )
+    OnIncrease = ()=>{
+        this.setState(({increase})=>({
+            increase: !increase
+        }))
+    }
+
+    render() {
+        const {name, salary} = this.props;
+
+        const {increase, favorite} = this.state;
+
+        let classNames = 'list-group-item d-flex justify-content-between'
+        if (increase){
+            classNames += ' increase';
+        }
+        if (favorite) {
+            classNames += ' like';
+        }
+
+        return(
+            <li className={classNames}>
+                <span onClick={this.onFavorite} className="list-group-item-label">{name}</span>
+                <input type="text" className="list-group-item-input" defaultValue={salary + '$'}/>
+                <div className='d-flex justify-content-center align-items-center'>
+                    <button type="button"
+                            className="btn-cookie btn-sm "
+                            onClick={this.OnIncrease}
+                    >
+                        <i className="fas fa-cookie"></i>
+                    </button>
+                    <button type="button"
+                            className="btn-trash btn-sm ">
+                        <i className="fas fa-trash"></i>
+                    </button>
+                    <i className="fas fa-star"></i>
+                </div>
+            </li>
+        )
+    }
 }
 
 export default EmployersListItem;
