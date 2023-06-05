@@ -2,7 +2,7 @@ import EmployersListItem from "../employers-list-item/employers-list-item";
 import './employers-list.css';
 
 
-const EmployersList = ({data, onDelete})=>{
+const EmployersList = ({data, onDelete, onToggleFavorite, onToggleIncrease})=>{
     const elems  = data.map((item)=>{
         const {id} = item;
         return(
@@ -10,6 +10,8 @@ const EmployersList = ({data, onDelete})=>{
                 {...item}
                 key={id}
                 onDelete={onDelete}
+                onToggleFavorite={onToggleFavorite(id)}
+                onToggleIncrease={onToggleIncrease}
             />
         )
     })

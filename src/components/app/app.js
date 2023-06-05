@@ -16,28 +16,33 @@ class App extends Component {
                     salary: '500',
                     increase: false,
                     id: 1,
+                    favorite: true,
                 },
                 {
                     name: 'Ivan',
                     salary: '1300',
                     increase: true,
                     id: 2,
+                    favorite: false,
                 },
                 {
                     name: 'Hanna',
                     salary: '800',
                     increase: false,
                     id: 3,
+                    favorite: false,
                 },
             ]
         }
     }
 
-    addItem = (name, salary) =>{
+    addItem = (event ,name, salary) =>{
+        event.preventDefault();
         const newEmploye = {
             name: name,
             salary: salary,
             increase: false,
+            favorite: false,
             id: this.getMaxId() + 1,
         }
 
@@ -52,8 +57,15 @@ class App extends Component {
             return 0;
         }
 
-        const maxId = data.length + 1;
+        const maxId = data[data.length - 1].id;
         return maxId;
+    }
+
+    onToggleIncrease = (id)=>{
+        console.log(`this Increase ${id}`);
+    }
+    onToggleFavorite = (id)=>{
+        console.log(`this Favorite ${id}`);
     }
 
     onDelete = (id) =>{
@@ -81,7 +93,10 @@ class App extends Component {
                 </div>
                 <EmployersList
                     onDelete={this.onDelete}
-                    data={this.state.data}/>
+                    data={this.state.data}
+                    onToggleIncrease = {this.onToggleIncrease}
+                    onToggleFavorite = {this.onToggleFavorite}
+                />
                 <EmployersAddForm
                     addItem={this.addItem}
                 />
