@@ -17,6 +17,7 @@ class EmployersAddForm extends Component {
         })
     }
 
+
    render(){
         const {addItem} = this.props;
         const {name, salary} = this.state;
@@ -40,7 +41,7 @@ class EmployersAddForm extends Component {
                           value={salary}
                    />
 
-                   <button onClick={(event)=>addItem(event ,this.state.name, this.state.salary)} type="submit"
+                   <button onClick={(e)=>addItem(e, name, salary)} type="submit"
                            className="btn btn-outline-light">Добавить
                    </button>
                </form>

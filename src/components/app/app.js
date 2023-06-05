@@ -16,33 +16,29 @@ class App extends Component {
                     salary: '500',
                     increase: false,
                     id: 1,
-                    favorite: true,
                 },
                 {
                     name: 'Ivan',
                     salary: '1300',
                     increase: true,
                     id: 2,
-                    favorite: false,
                 },
                 {
                     name: 'Hanna',
                     salary: '800',
                     increase: false,
                     id: 3,
-                    favorite: false,
                 },
             ]
         }
     }
 
-    addItem = (event ,name, salary) =>{
-        event.preventDefault();
+    addItem = (e, name, salary) =>{
+        e.preventDefault();
         const newEmploye = {
             name: name,
             salary: salary,
             increase: false,
-            favorite: false,
             id: this.getMaxId() + 1,
         }
 
@@ -50,6 +46,30 @@ class App extends Component {
             data: [...prevState.data, newEmploye]
         }))
     };
+
+    onToggleProp = (id, prop) => {
+
+        this.setState(({data})=>({
+            data: data.map(item=>{
+                if (item.id === id) {
+                    return {...item, [prop]: !item[prop]};
+                }
+                return item;
+            })
+        }))
+    }
+
+    onToggleFavorite = (id) =>{
+        this.setState(({data})=>{
+            const index = data.findIndex(elem=>elem.id === id);
+            const old = data[index];
+            const newItem = {...old, favorite: !old.favorite};
+            const newArr = [...data.slice(0 , index), newItem, ...data.slice(index + 1)];
+            return {
+                data: newArr,
+            }
+        })
+    }
 
     getMaxId = () =>{
         const {data} = this.state;
@@ -59,13 +79,6 @@ class App extends Component {
 
         const maxId = data[data.length - 1].id;
         return maxId;
-    }
-
-    onToggleIncrease = (id)=>{
-        console.log(`this Increase ${id}`);
-    }
-    onToggleFavorite = (id)=>{
-        console.log(`this Favorite ${id}`);
     }
 
     onDelete = (id) =>{
@@ -84,9 +97,13 @@ class App extends Component {
     }
 
     render() {
+
+        const employers = this.state.data.length;
+        const increased = this.state.data.filter(item=>item.increase === true).length;
+
         return(
             <div className='app'>
-                <AppInfo/>
+                <AppInfo employers={employers} increased={increased}/>
                 <div className='search-panel'>
                     <SearchPanel/>
                     <AppFilter/>
@@ -94,8 +111,7 @@ class App extends Component {
                 <EmployersList
                     onDelete={this.onDelete}
                     data={this.state.data}
-                    onToggleIncrease = {this.onToggleIncrease}
-                    onToggleFavorite = {this.onToggleFavorite}
+                    onToggleProp={this.onToggleProp}
                 />
                 <EmployersAddForm
                     addItem={this.addItem}
